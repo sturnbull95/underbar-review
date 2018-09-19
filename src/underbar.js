@@ -95,7 +95,7 @@
     // copying code in and modifying it
     return _.filter(collection, function(val) {
       return !test(val);
-    })
+    });
   };
 
   // Produce a duplicate-free version of the array. 122233345
@@ -204,10 +204,10 @@
     accumulator === undefined ?  j = 1 :  j = 0;
     accumulator === undefined ?  total = iterator(fEl,sEl):  total = iterator(accumulator,fEl);
 
-      for(var i = 1+j; i < keys.length; i++) {
-        total = iterator(total,collection[keys[i]]);
-      }
-      return total;
+    for (var i = 1+j; i < keys.length; i++) {
+      total = iterator(total,collection[keys[i]]);
+    }
+    return total;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -238,8 +238,7 @@
       } else{
         if(next){
           return true;
-        }
-        else{
+        } else{
           return false;
         }
       }
@@ -256,7 +255,7 @@
     }
     return !_.every(collection, function(value) {
       return !iterator(value);
-    })
+    });
   };
 
 
@@ -298,7 +297,7 @@
     _.each(argumentArr, function(otherObj) {
       _.each(otherObj, function(val, key) {
         if(obj[key] === undefined) {
-            obj[key]=val;
+          obj[key]=val;
         }
       });
     });
@@ -353,12 +352,12 @@
     // if it hasn't been called before.
     return function(){
       var newArr = JSON.stringify(arguments);
-        if(!argList.includes(newArr)){
-          result = func.apply(this,arguments)
-          argList.push(newArr)
-        }
-        return result;
-    }
+      if(!argList.includes(newArr)){
+        result = func.apply(this,arguments);
+        argList.push(newArr);
+      }
+      return result;
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -419,7 +418,7 @@
       } else{
         return value[functionOrKey].apply(value,args);
       }
-    })
+    });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -428,12 +427,13 @@
   // an array of people by their name.
 
   _.sortBy = function(collection, iterator) {
+    console.log('INPUT COLLECTION:' + JSON.stringify(collection) + " | ITERATOR: " + iterator);
     var array = collection.slice(0);
 
-    array.push(collection[0]);
-    for (var i = 1; i< collection.length; i++) {
+    // array.push(collection[0]);
+    for (var i = 0; i< array.length; i++) {
       console.log('WHAT IS I: ' + i);
-      for (var j =0; j<collection.length-1; j++) {
+      for (var j =1; j<array.length; j++) {
 
         if (typeof iterator === 'string') {
           if (stevenPengfeisLessThan(array[j][iterator], array[j-1][iterator])) {
@@ -468,30 +468,29 @@
     console.log('COLLECTION: '+JSON.stringify(collection));
     console.log('RESULT: '+ JSON.stringify(array));
     return array;
-};
+  };
 
-    // if(typeof iterator === 'string'){
-    //   for (var key in collection) {
-    //     var val = collection[key];
-    //     if (array.length === 0) { array.push(val); }
-    //     else {
-    //       var pushed = false;
-    //       for (var i = 0; i < array.length; i++) {
-    //         if (val[iterator] < array[i][iterator]) {
-    //         //first half of array
-    //           var fHalf = array.slice(0, i);
-    //         //second half of array
-    //           var sHalf = array.slice(i);
-    //         //concat
-    //           array = fHalf.concat(val, sHalf);
-    //           pushed = true;
-    //         }
-    //       }
-    //       if (!pushed) { array.push(val); }
-    //     }
-    //   };
-    //   console.log(array);
-    // }
+  // if(typeof iterator === 'string'){
+  //   for (var key in collection) {
+  //     var val = collection[key];
+  //     if (array.length === 0) { array.push(val); }
+  //     else {
+  //       var pushed = false;
+  //       for (var i = 0; i < array.length; i++) {
+  //         if (val[iterator] < array[i][iterator]) {
+  //         //first half of array
+  //           var fHalf = array.slice(0, i);
+  //         //second half of array
+  //           var sHalf = array.slice(i);
+  //         //concat
+  //           array = fHalf.concat(val, sHalf);
+  //           pushed = true;
+  //         }
+  //       }
+  //       if (!pushed) { array.push(val); }
+  //     }    //   };
+  //   console.log(array);
+  // }
 
 
 
@@ -514,12 +513,12 @@
       var temp = [];
       for(var j = 0; j < arguments.length; j++){
         if(arguments[j][i] === undefined){
-          temp.push(undefined)
+          temp.push(undefined);
         } else{
-            temp.push(arguments[j][i])
+          temp.push(arguments[j][i]);
         }
       }
-      array.push(temp)
+      array.push(temp);
     }
     return array;
   };
@@ -533,13 +532,13 @@
     if (result === undefined) { result = []; }
 
     for (var i = 0; i < nestedArray.length; i++) {
-        console.log(nestedArray[i]);
-        if(Array.isArray(nestedArray[i])) {
-          _.flatten(nestedArray[i], result);
-        } else {
-          result.push(nestedArray[i]);
-        }
-        console.log('RESULT: ' + result);
+      // console.log(nestedArray[i]);
+      if(Array.isArray(nestedArray[i])) {
+        _.flatten(nestedArray[i], result);
+      } else {
+        result.push(nestedArray[i]);
+      }
+      // console.log('RESULT: ' + result);
     }
 
     return result;
@@ -589,13 +588,13 @@
   _.throttle = function(func, wait) {
     var once = false;
 
-    function execute() {
+    var execute = function() {
       if (!once) {
         func.apply(this,arguments);
         once = true;
         setTimeout(function() {once = false;}, wait);
       }
-    }
+    };
     return execute;
   };
 }());
